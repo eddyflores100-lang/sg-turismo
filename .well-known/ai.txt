@@ -1,0 +1,11 @@
+# SG-Turismo - AI Agent Configuration
+# Site: https://sg-turismo.com
+# Business: Turismo en bus por Ecuador
+# Location: Pomasqui, Pichincha, Ecuador
+# Phone: +593 98 010 8426
+# Email: fransanti7@hotmail.com
+# Languages: Spanish (es-EC), English
+# Services: Buses ejecutivos 12-45 pax, rutas turísticas, transfers
+# Regions: Sierra, Costa, Oriente, Sur (Ecuador continental)
+# Destinations: Quito, Baños, Cotopaxi, Cuenca, Guayaquil, Otavalo, Mindo, Quilotoa, Puyo
+# Bookings: WhatsApp +593 98 010 8426

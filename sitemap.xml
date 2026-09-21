@@ -1,9 +1,88 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
+        xmlns:geo="http://www.google.com/geo/schemas/sitemap/1.0">
   <url>
     <loc>https://sg-turismo.com/</loc>
-    <lastmod>2026-09-10</lastmod>
-    <changefreq>monthly</changefreq>
+    <lastmod>2026-09-22</lastmod>
+    <changefreq>daily</changefreq>
     <priority>1.0</priority>
+    <geo:geo>
+      <geo:location>
+        <geo:point><geo:lat>-0.0586</geo:lat><geo:lng>-78.3408</geo:lng></geo:point>
+        <geo:country>EC</geo:country>
+        <geo:region>Pichincha</geo:region>
+        <geo:city>Pomasqui</geo:city>
+      </geo:location>
+    </geo:geo>
+    <image:image>
+      <image:loc>https://sg-turismo.com/bus-hero.jpg</image:loc>
+      <image:title>Bus SG-Turismo recorriendo Ecuador</image:title>
+      <image:caption>Autobús de turismo en paisaje andino</image:caption>
+      <image:geo_location>Ecuador</image:geo_location>
+    </image:image>
+    <image:image>
+      <image:loc>https://sg-turismo.com/scenes/cotopaxi.jpg</image:loc>
+      <image:title>Volcán Cotopaxi Ecuador</image:title>
+      <image:geo_location>Parque Nacional Cotopaxi, Ecuador</image:geo_location>
+    </image:image>
+    <image:image>
+      <image:loc>https://sg-turismo.com/scenes/quito.jpg</image:loc>
+      <image:title>Centro Histórico de Quito</image:title>
+      <image:geo_location>Quito, Pichincha, Ecuador</image:geo_location>
+    </image:image>
+    <image:image>
+      <image:loc>https://sg-turismo.com/scenes/banos.jpg</image:loc>
+      <image:title>Baños de Agua Santa Ecuador</image:title>
+      <image:geo_location>Baños, Tungurahua, Ecuador</image:geo_location>
+    </image:image>
+    <image:image>
+      <image:loc>https://sg-turismo.com/scenes/cuenca.jpg</image:loc>
+      <image:title>Cuenca Patrimonio UNESCO</image:title>
+      <image:geo_location>Cuenca, Azuay, Ecuador</image:geo_location>
+    </image:image>
+    <image:image>
+      <image:loc>https://sg-turismo.com/scenes/guayaquil.jpg</image:loc>
+      <image:title>Guayaquil Malecón 2000</image:title>
+      <image:geo_location>Guayaquil, Guayas, Ecuador</image:geo_location>
+    </image:image>
+    <image:image>
+      <image:loc>https://sg-turismo.com/scenes/quilotoa.jpg</image:loc>
+      <image:title>Laguna de Quilotoa Ecuador</image:title>
+      <image:geo_location>Quilotoa, Cotopaxi, Ecuador</image:geo_location>
+    </image:image>
+    <image:image>
+      <image:loc>https://sg-turismo.com/scenes/chimborazo.jpg</image:loc>
+      <image:title>Volcán Chimborazo Ecuador</image:title>
+      <image:geo_location>Reserva Chimborazo, Ecuador</image:geo_location>
+    </image:image>
+    <image:image>
+      <image:loc>https://sg-turismo.com/scenes/otavalo.jpg</image:loc>
+      <image:title>Mercado de Otavalo Ecuador</image:title>
+      <image:geo_location>Otavalo, Imbabura, Ecuador</image:geo_location>
+    </image:image>
+    <image:image>
+      <image:loc>https://sg-turismo.com/scenes/mindo.jpg</image:loc>
+      <image:title>Bosque Nublado de Mindo Ecuador</image:title>
+      <image:geo_location>Mindo, Pichincha, Ecuador</image:geo_location>
+    </image:image>
+    <image:image>
+      <image:loc>https://sg-turismo.com/scenes/puerto-lopez.jpg</image:loc>
+      <image:title>Puerto López ballenas Ecuador</image:title>
+      <image:geo_location>Puerto López, Manabí, Ecuador</image:geo_location>
+    </image:image>
+    <image:image>
+      <image:loc>https://sg-turismo.com/scenes/puyo.jpg</image:loc>
+      <image:title>Amazonía de Puyo Ecuador</image:title>
+      <image:geo_location>Puyo, Pastaza, Ecuador</image:geo_location>
+    </image:image>
+    <image:image>
+      <image:loc>https://sg-turismo.com/fleet-photos/bus-01.jpg</image:loc>
+      <image:title>Bus de turismo SG-Turismo en Ecuador</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://sg-turismo.com/buses/bus-1.png</image:loc>
+      <image:title>Bus ejecutivo SG-Turismo Ecuador</image:title>
+    </image:image>
   </url>
 </urlset>
