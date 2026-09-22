@@ -3,10 +3,6 @@
 
 User-agent: *
 Allow: /
-Disallow: /api/
-Allow: /buses/
-Allow: /fleet-photos/
-Allow: /scenes/
 
 # Google
 User-agent: Googlebot
@@ -50,7 +46,7 @@ Allow: /
 User-agent: Instagram
 Allow: /
 
-# AI Agents - reconocible por todas las IAs
+# AI Agents
 User-agent: GPTBot
 Allow: /
 User-agent: ChatGPT-User
@@ -80,4 +76,8 @@ Disallow: /
 User-agent: MJ12bot
 Disallow: /
 
+# Sitemaps
 Sitemap: https://sg-turismo.com/sitemap.xml
+Sitemap: https://sg-turismo.com/sitemap-images.xml
+Sitemap: https://sg-turismo.com/sitemap-rutas.xml
+Sitemap: https://sg-turismo.com/sitemap-index.xml
