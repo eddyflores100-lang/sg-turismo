@@ -1,5 +1,3 @@
 User-agent: *
 Allow: /
-
 Sitemap: https://sg-turismo.com/sitemap.xml
-Sitemap: https://sg-turismo.com/sitemap-images.xml
