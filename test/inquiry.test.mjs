@@ -1,0 +1,5 @@
+import {test} from 'node:test';import assert from 'node:assert/strict';import {prepareInquiry,todayInEcuador} from '../assets/inquiry.mjs';
+const input={origin:'Quito & centro',destination:'Baños / Río Verde',date:'2026-12-10',passengers:'20',service:'Ida y vuelta'};
+test('draft preserves encoded input and fixed existing operator contact',()=>{const r=prepareInquiry(input,'2026-12-01');const u=new URL(r.url);assert.equal(u.origin,'https://wa.me');assert.equal(u.pathname,'/593999094233');assert.equal(u.searchParams.get('text'),r.text);assert.match(r.text,/no confirma una reserva/);assert.match(r.text,/Quito & centro/);assert.match(r.text,/Pasajeros: 20/);});
+test('rejects invalid dates, counts and missing routes',()=>{for(const change of [{origin:''},{destination:' '},{date:'2026-02-30'},{date:'2026-11-30'},{passengers:'0'},{passengers:'201'},{passengers:'1.5'},{service:'Pagar'}])assert.throws(()=>prepareInquiry({...input,...change},'2026-12-01'));});
+test('calendar uses Ecuador date around UTC midnight',()=>assert.equal(todayInEcuador(new Date('2026-10-09T02:00:00Z')),'2026-10-08'));
