@@ -1,0 +1,5 @@
+import fs from 'node:fs';import path from 'node:path';import {fileURLToPath} from 'node:url';
+const root=path.resolve(fileURLToPath(new URL('../',import.meta.url))),out=path.join(root,'dist');
+const files=['index.html','404.html','assets/site.css','assets/site.mjs','assets/inquiry.mjs','bus-hero.jpg','favicon.svg','scenes/cotopaxi.jpg','scenes/banos.jpg','scenes/quito.jpg'];
+fs.rmSync(out,{recursive:true,force:true});fs.mkdirSync(out);for(const file of files){const dest=path.join(out,file);fs.mkdirSync(path.dirname(dest),{recursive:true});fs.copyFileSync(path.join(root,file),dest);}
+const html=fs.readFileSync(path.join(out,'index.html'),'utf8');for(const [,href]of html.matchAll(/(?:href|src)="([^"]+)"/g)){if(/^(tel:|mailto:|https:)/.test(href))continue;if(href.startsWith('#')){if(!html.includes(`id="${href.slice(1)}"`))throw Error('Missing anchor '+href);continue;}const target=path.resolve(out,href);if(!target.startsWith(out+path.sep)||!fs.existsSync(target))throw Error('Missing asset '+href);}console.log('PASS: static output, local assets and anchors. Legacy export excluded.');

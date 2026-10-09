@@ -1,0 +1,1 @@
+{"name":"sg-turismo","version":"2.0.0","private":true,"type":"module","scripts":{"build":"node scripts/build.mjs","test":"node --test && npm run build"},"engines":{"node":">=22"}}
