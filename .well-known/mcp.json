@@ -1,0 +1,99 @@
+{
+  "version": "1.0",
+  "name": "SG-Turismo AI Agent",
+  "description": "Asistente AI para turismo en bus por Ecuador. Responde sobre rutas, destinos, distancias, buses y cotizaciones.",
+  "url": "https://sg-turismo.com",
+  "contact": {
+    "whatsapp": "https://wa.me/593980108426",
+    "phone": "+593999094233",
+    "email": "fransanti7@hotmail.com"
+  },
+  "location": {
+    "address": "Pomasqui, Calle Santa Cecilia y San Pablo",
+    "city": "Quito",
+    "province": "Pichincha",
+    "country": "Ecuador",
+    "geo": {
+      "latitude": -0.1051,
+      "longitude": -78.4569
+    }
+  },
+  "language": ["es-EC", "es", "en"],
+  "currency": "USD",
+  "timezone": "America/Guayaquil",
+  "tools": [
+    {
+      "name": "chat",
+      "description": "Conversa con el asistente AI sobre rutas, destinos, buses y cotizaciones de turismo en Ecuador",
+      "endpoint": "https://sg-turismo-agent.eddyflores100.workers.dev/chat",
+      "method": "POST",
+      "contentType": "application/json",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "Pregunta o mensaje del usuario sobre turismo en Ecuador"
+          },
+          "history": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "role": { "type": "string", "enum": ["user", "agent"] },
+                "text": { "type": "string" }
+              }
+            },
+            "description": "Historial de la conversación (opcional)"
+          }
+        },
+        "required": ["message"]
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "response": { "type": "string", "description": "Respuesta del asistente" },
+          "chips": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Sugerencias rápidas para continuar la conversación"
+          }
+        }
+      },
+      "examples": [
+        {
+          "input": { "message": "¿Cuánto tarda el viaje de Quito a Baños?" },
+          "output": {
+            "response": "El viaje de Quito a Baños toma aproximadamente 3 horas y 30 minutos en bus, recorriendo 180 km por la vía Píllaro - Ambato.",
+            "chips": ["Ver flota", "Cotizar este viaje"]
+          }
+        }
+      ]
+    }
+  ],
+  "capabilities": [
+    "route-planning",
+    "distance-calculation",
+    "bus-recommendation",
+    "destination-info",
+    "quotation-referral"
+  ],
+  "regions": ["Sierra", "Costa", "Oriente", "Sur"],
+  "destinations": [
+    "Quito", "Baños", "Cotopaxi", "Cuenca", "Guayaquil",
+    "Otavalo", "Mindo", "Quilotoa", "Puyo", "Riobamba", "Puerto López"
+  ],
+  "fleet": [
+    { "name": "Bus Ejecutivo 12", "capacity": 12, "type": "ejecutivo" },
+    { "name": "Bus Ejecutivo 20", "capacity": 20, "type": "ejecutivo" },
+    { "name": "Bus Ejecutivo 32", "capacity": 32, "type": "ejecutivo" },
+    { "name": "Bus Ejecutivo 45", "capacity": 45, "type": "ejecutivo" },
+    { "name": "Bus Sprinter", "capacity": 15, "type": "premium" },
+    { "name": "Bus Turismo", "capacity": 36, "type": "turismo" }
+  ],
+  "ai_provider": {
+    "name": "Cloudflare Workers AI",
+    "model": "llama-3.1-8b-instruct",
+    "hosting": "Cloudflare Workers"
+  }
+}

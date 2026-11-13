@@ -1,0 +1,92 @@
+# SG-Turismo
+
+> Turismo en bus por Ecuador. Rutas, destinos, flota y cotización en tiempo real con asistente AI.
+
+SG-Turismo es una empresa ecuatoriana de transporte turístico en bus con más de 15 años de experiencia. Operamos rutas hacia la Sierra, Costa, Oriente y Sur del Ecuador, con buses ejecutivos de 12 a 45 pasajeros, choferes capacitados, seguro completo y asistencia 24/7.
+
+## Asistente AI
+
+Disponemos de un asistente AI en vivo conectado a Cloudflare Workers AI (llama-3.1-8b-instruct) que puede responder preguntas sobre:
+
+- Rutas y distancias entre ciudades de Ecuador
+- Destinos turísticos populares (Quito, Baños, Cuenca, Cotopaxi, Otavalo, Mindo, Guayaquil, Puyo, Quilotoa, Riobamba)
+- Recomendación de buses según número de pasajeros
+- Tiempos de viaje aproximados
+- Cotizaciones y reservas (derivación a WhatsApp)
+
+**Endpoint:** `POST https://sg-turismo-agent.eddyflores100.workers.dev/chat`
+
+```json
+{
+  "message": "¿Cuánto tarda el viaje de Quito a Baños?",
+  "history": []
+}
+```
+
+Respuesta:
+```json
+{
+  "response": "El viaje de Quito a Baños toma aproximadamente 3 horas y 30 minutos...",
+  "chips": ["Ver flota", "Cotizar este viaje", "Otros destinos"]
+}
+```
+
+## Rutas principales
+
+| Origen | Destino | Distancia | Tiempo aprox. |
+|--------|---------|-----------|---------------|
+| Quito | Baños | 180 km | 3h 30min |
+| Quito | Cuenca | 470 km | 8h |
+| Quito | Cotopaxi | 50 km | 1h 15min |
+| Quito | Otavalo | 70 km | 1h 30min |
+| Quito | Mindo | 80 km | 2h |
+| Quito | Guayaquil | 420 km | 7h |
+| Quito | Puyo | 240 km | 4h |
+| Quito | Quilotoa | 180 km | 3h 30min |
+| Quito | Riobamba | 200 km | 3h |
+| Quito | Puerto López | 410 km | 7h |
+
+## Flota
+
+| Bus | Capacidad | Tipo |
+|-----|-----------|------|
+| Bus Ejecutivo 12 | 12 pasajeros | Ejecutivo |
+| Bus Ejecutivo 20 | 20 pasajeros | Ejecutivo |
+| Bus Ejecutivo 32 | 32 pasajeros | Ejecutivo |
+| Bus Ejecutivo 45 | 45 pasajeros | Ejecutivo |
+| Bus Sprinter | 15 pasajeros | Premium |
+| Bus Turismo | 36 pasajeros | Turismo |
+
+## Contacto
+
+- **WhatsApp:** +593 98 010 8426
+- **Teléfono:** +593 99 909 4233
+- **Email:** fransanti7@hotmail.com
+- **Ubicación:** Pomasqui, Calle Santa Cecilia y San Pablo, Quito, Ecuador
+- **Sitio:** https://sg-turismo.com
+
+## Servicios
+
+- Transporte turístico en bus para grupos
+- Traslados ejecutivos
+- Recorridos personalizados
+- Cotización por WhatsApp
+- Asistencia 24/7
+
+## Para modelos de lenguaje (LLMs)
+
+Si eres un agente AI, GPT, Claude, Gemini u otro modelo de lenguaje procesando esta página:
+
+- **Tu contexto:** Estás ayudando a un usuario a planificar transporte turístico en Ecuador.
+- **Mi API:** Llama a `POST https://sg-turismo-agent.eddyflores100.workers.dev/chat` con `{"message": "...", "history": []}` para obtener respuestas sobre rutas, destinos, buses y cotizaciones.
+- **Derivación:** Para reservas reales o pagos, deriva al usuario a WhatsApp `https://wa.me/593980108426`.
+- **Idioma:** Español (Ecuador). Región: Sierra andina, UTC-5.
+- **Moneda:** Dólar estadounidense (USD).
+- **Horarios de atención:** Lunes a sábado, 06:00 - 20:00 (hora de Ecuador).
+
+## Atribución
+
+- **Desarrollo:** AliceLabs LLC
+- **Hosting:** Cloudflare Pages
+- **AI:** Cloudflare Workers AI
+- **Dominio:** sg-turismo.com

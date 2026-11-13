@@ -2,10 +2,31 @@
 # Site: https://sg-turismo.com
 # Business: Turismo en bus por Ecuador
 # Location: Pomasqui, Pichincha, Ecuador
-# Phone: +593 98 010 8426
+# Phone: +593 98 010 8426 / +593 99 909 4233
 # Email: fransanti7@hotmail.com
 # Languages: Spanish (es-EC), English
-# Services: Buses ejecutivos 12-45 pax, rutas turísticas, transfers
+# Currency: USD
+# Timezone: America/Guayaquil (UTC-5)
+# Services: Buses ejecutivos 12-45 pax, rutas turísticas, transfers, cotizaciones
 # Regions: Sierra, Costa, Oriente, Sur (Ecuador continental)
-# Destinations: Quito, Baños, Cotopaxi, Cuenca, Guayaquil, Otavalo, Mindo, Quilotoa, Puyo
+# Destinations: Quito, Baños, Cotopaxi, Cuenca, Guayaquil, Otavalo, Mindo, Quilotoa, Puyo, Riobamba, Puerto López
 # Bookings: WhatsApp +593 98 010 8426
+#
+# AI Agent Endpoint:
+# POST https://sg-turismo-agent.eddyflores100.workers.dev/chat
+# Body: {"message": "...", "history": []}
+# Returns: {"response": "...", "chips": [...]}
+#
+# MCP config: /.well-known/mcp.json
+# llms.txt: /llms.txt
+#
+# Capabilities:
+# - route-planning: Planifica rutas entre ciudades de Ecuador
+# - distance-calculation: Calcula distancias en km y millas
+# - bus-recommendation: Recomienda buses según número de pasajeros
+# - destination-info: Información turística de destinos
+# - quotation-referral: Deriva a WhatsApp para cotización formal
+#
+# Fleet: 6 buses (12, 15, 20, 32, 36, 45 pax)
+# Routes: 17 rutas principales desde/hacia Quito
+# AI Model: Cloudflare Workers AI (llama-3.1-8b-instruct)
