@@ -1,20 +1,11 @@
 /**
  * SG-Turismo AI Agent Widget
- * Vanilla JS chat widget that connects to the Cloudflare Worker
- * at https://sg-turismo-agent.eddyflores100.workers.dev
- * No dependencies, no framework. Injected into the static page.
- * Robust: survives Next.js hydration, re-injects if removed.
+ * Connects to Cloudflare Worker with Workers AI (llama-3.1-8b-instruct-fp8)
+ * Uses hardcoded HTML elements (#sgtAgentBtn, #sgtAgentPanel) if present,
+ * otherwise creates them dynamically.
  */
 (function () {
   'use strict';
-
-  // Wait for body to exist, then init. Re-init if removed.
-  function whenBodyReady(fn) {
-    if (document.body) { fn(); return; }
-    var t = setInterval(function () {
-      if (document.body) { clearInterval(t); fn(); }
-    }, 10);
-  }
 
   var WORKER_URL = 'https://sg-turismo-agent.eddyflores100.workers.dev';
   var WHATSAPP = 'https://wa.me/593980108426?text=Hola%20SG-Turismo%2C%20quiero%20información';
@@ -73,194 +64,177 @@
 .sgt-agent-input button svg{width:16px;height:16px}
 .sgt-agent-input button:disabled{opacity:.5;cursor:not-allowed}
 .sgt-wa-btn{background:#25D366!important}
-@media(max-width:480px){.sgt-agent-panel{bottom:80px;right:10px;left:10px;width:auto;height:70vh}}
+@media(max-width:480px){.sgt-agent-panel{bottom:80px;right:10px;left:10px;width:auto;height:70vh}
+  .sgt-agent-btn{width:52px;height:52px;bottom:16px;right:16px}
+  .sgt-agent-input input{font-size:16px}}
 `;
-  var style = document.createElement('style');
-  style.textContent = css;
-  document.head.appendChild(style);
 
-  var BUS_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6v6"/><path d="M15 6v6"/><path d="M2 12h19.6"/><path d="M18 18h3s.5-1.7.8-2.8c.1-.4.2-.8.2-1.2 0-.4-.1-.8-.2-1.2l-1.4-5C20.1 6.8 19.1 6 18 6H4a2 2 0 0 0-2 2v10h3"/><circle cx="7" cy="18" r="2"/><path d="M9 18h5"/><circle cx="16" cy="18" r="2"/></svg>';
-  var CLOSE_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>';
-  var SEND_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>';
-  var WA_SVG = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4 7.94 7.94 0 0 0 4.1 11.9a7.84 7.84 0 0 0 1.06 3.95L4 20l4.25-1.11a7.86 7.86 0 0 0 3.79.96h.01a7.94 7.94 0 0 0 7.94-7.9 7.86 7.86 0 0 0-2.39-5.63Zm-5.55 12.18h-.01a6.5 6.5 0 0 1-3.32-.91l-.24-.14-2.49.65.66-2.43-.16-.25a6.46 6.46 0 0 1-1-3.46 6.5 6.5 0 0 1 6.5-6.49 6.43 6.43 0 0 1 4.59 1.91 6.45 6.45 0 0 1 1.9 4.59 6.5 6.5 0 0 1-6.49 6.49Z"/></svg>';
-
-  var btn = document.createElement('button');
-  btn.className = 'sgt-agent-btn';
-  btn.setAttribute('aria-label', 'Abrir asistente SG-Turismo');
-  btn.innerHTML = BUS_SVG + '<span class="live-dot"></span>';
-  btn.onclick = togglePanel;
-
-  var panel = document.createElement('div');
-  panel.className = 'sgt-agent-panel';
-  panel.innerHTML =
-    '<div class="sgt-agent-header">' +
-      '<div class="icon">' + BUS_SVG + '</div>' +
-      '<div class="info">' +
-        '<div class="title">SG-Turismo Asistente</div>' +
-        '<div class="status"><span class="dot"></span> En vivo · Rutas, destinos, buses</div>' +
-      '</div>' +
-      '<button class="close" aria-label="Cerrar">' + CLOSE_SVG + '</button>' +
-    '</div>' +
-    '<div class="sgt-agent-msgs" id="sgtMsgs"></div>' +
-    '<div class="sgt-agent-input">' +
-      '<input type="text" id="sgtInput" placeholder="Escribe tu mensaje..." autocomplete="off">' +
-      '<button id="sgtSend" aria-label="Enviar">' + SEND_SVG + '</button>' +
-      '<button id="sgtWa" class="sgt-wa-btn" aria-label="WhatsApp">' + WA_SVG + '</button>' +
-    '</div>';
-
-  var injected = false;
-  function inject() {
-    if (injected) return;
-    if (!document.body) return;
-    if (document.querySelector('.sgt-agent-btn')) return;
-    document.body.appendChild(btn);
-    document.body.appendChild(panel);
-    injected = true;
+  // Inject styles
+  if (!document.getElementById('sgt-agent-styles')) {
+    var style = document.createElement('style');
+    style.id = 'sgt-agent-styles';
+    style.textContent = css;
+    document.head.appendChild(style);
   }
-  function tryInject() { whenBodyReady(inject); }
-  // Try immediately, on DOMContentLoaded, on load, and after delays
-  tryInject();
-  document.addEventListener('DOMContentLoaded', tryInject);
-  window.addEventListener('load', tryInject);
-  // Retry after delays to survive Next.js hydration
-  setTimeout(tryInject, 500);
-  setTimeout(tryInject, 1500);
-  setTimeout(tryInject, 3000);
-  // Observer: if button gets removed, re-inject
-  whenBodyReady(function () {
-    var obs = new MutationObserver(function () {
-      if (!document.querySelector('.sgt-agent-btn')) {
-        injected = false;
-        tryInject();
-      }
-    });
-    obs.observe(document.body, { childList: true, subtree: false });
-  });
 
-  var msgsEl = panel.querySelector('#sgtMsgs');
-  var inputEl = panel.querySelector('#sgtInput');
-  var sendBtn = panel.querySelector('#sgtSend');
-  var waBtn = panel.querySelector('#sgtWa');
-  var closeBtn = panel.querySelector('.close');
   var history = [];
   var isOpen = false;
   var initialized = false;
 
-  closeBtn.onclick = togglePanel;
-  sendBtn.onclick = sendMessage;
-  waBtn.onclick = function () { window.open(WHATSAPP, '_blank'); };
-  inputEl.addEventListener('keypress', function (e) {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault();
-      sendMessage();
-    }
-  });
+  function init() {
+    if (initialized) return;
+    // Try to find existing elements (hardcoded in HTML)
+    var btn = document.getElementById('sgtAgentBtn');
+    var panel = document.getElementById('sgtAgentPanel');
+    if (!btn || !panel) return;
+    initialized = true;
 
-  function togglePanel() {
-    isOpen = !isOpen;
-    panel.classList.toggle('open', isOpen);
-    if (isOpen && !initialized) {
-      initialized = true;
-      loadHistory();
-      if (history.length === 0) {
+    var msgsEl = panel.querySelector('#sgtMsgs');
+    var inputEl = panel.querySelector('#sgtInput');
+    var sendBtn = panel.querySelector('#sgtSend');
+    var waBtn = panel.querySelector('#sgtWa');
+    var closeBtn = panel.querySelector('#sgtAgentClose');
+
+    btn.onclick = togglePanel;
+    if (closeBtn) closeBtn.onclick = togglePanel;
+    if (sendBtn) sendBtn.onclick = sendMessage;
+    if (waBtn) waBtn.onclick = function () { window.open(WHATSAPP, '_blank'); };
+    if (inputEl) {
+      inputEl.addEventListener('keypress', function (e) {
+        if (e.key === 'Enter' && !e.shiftKey) {
+          e.preventDefault();
+          sendMessage();
+        }
+      });
+    }
+
+    function togglePanel() {
+      isOpen = !isOpen;
+      panel.classList.toggle('open', isOpen);
+      if (isOpen && history.length === 0) {
         addMsg('agent', '¡Hola! Soy el asistente de SG-Turismo 🚌\n\nPuedo ayudarte con rutas, distancias, destinos y buses en Ecuador.\n\n¿A dónde quieres viajar?',
           ['Quito → Baños', 'Quito → Cuenca', 'Destinos populares', 'Ver flota']);
       }
-      inputEl.focus();
+      if (isOpen && inputEl) inputEl.focus();
     }
-  }
 
-  function loadHistory() {
-    try {
-      var saved = JSON.parse(sessionStorage.getItem(STORAGE_KEY) || '[]');
-      if (Array.isArray(saved) && saved.length > 0) {
-        history = saved;
-        history.forEach(function (m) {
-          addMsg(m.role, m.text, m.chips);
+    function loadHistory() {
+      try {
+        var saved = JSON.parse(sessionStorage.getItem(STORAGE_KEY) || '[]');
+        if (Array.isArray(saved) && saved.length > 0) {
+          history = saved;
+          history.forEach(function (m) { addMsg(m.role, m.text, m.chips); });
+        }
+      } catch (e) { history = []; }
+    }
+
+    function saveHistory() {
+      try { sessionStorage.setItem(STORAGE_KEY, JSON.stringify(history.slice(-20))); } catch (e) {}
+    }
+
+    function addMsg(role, text, chips) {
+      var div = document.createElement('div');
+      div.className = 'sgt-msg ' + role;
+      var html = escapeHtml(text);
+      if (chips && chips.length) {
+        html += '<div class="chips">' + chips.map(function (c) {
+          return '<span class="chip">' + escapeHtml(c) + '</span>';
+        }).join('') + '</div>';
+      }
+      div.innerHTML = html;
+      if (chips && chips.length) {
+        div.querySelectorAll('.chip').forEach(function (chip, i) {
+          chip.onclick = function () {
+            if (inputEl) inputEl.value = chips[i];
+            sendMessage();
+          };
         });
       }
-    } catch (e) { history = []; }
-  }
-
-  function saveHistory() {
-    try {
-      sessionStorage.setItem(STORAGE_KEY, JSON.stringify(history.slice(-20)));
-    } catch (e) {}
-  }
-
-  function addMsg(role, text, chips) {
-    var div = document.createElement('div');
-    div.className = 'sgt-msg ' + role;
-    var html = escapeHtml(text);
-    if (chips && chips.length) {
-      html += '<div class="chips">' + chips.map(function (c) {
-        return '<span class="chip">' + escapeHtml(c) + '</span>';
-      }).join('') + '</div>';
+      msgsEl.appendChild(div);
+      msgsEl.scrollTop = msgsEl.scrollHeight;
+      if (role === 'user' || role === 'agent') {
+        history.push({ role: role, text: text, chips: chips });
+        saveHistory();
+      }
     }
-    div.innerHTML = html;
-    if (chips && chips.length) {
-      div.querySelectorAll('.chip').forEach(function (chip, i) {
-        chip.onclick = function () {
-          inputEl.value = chips[i];
-          sendMessage();
-        };
+
+    function showTyping() {
+      var div = document.createElement('div');
+      div.className = 'sgt-typing';
+      div.id = 'sgtTyping';
+      div.innerHTML = '<span></span><span></span><span></span>';
+      msgsEl.appendChild(div);
+      msgsEl.scrollTop = msgsEl.scrollHeight;
+    }
+    function hideTyping() {
+      var t = document.getElementById('sgtTyping');
+      if (t) t.remove();
+    }
+
+    function sendMessage() {
+      var text = inputEl.value.trim();
+      if (!text) return;
+      addMsg('user', text);
+      inputEl.value = '';
+      sendBtn.disabled = true;
+      showTyping();
+      fetch(WORKER_URL + '/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: text, history: history.slice(-10) })
+      })
+      .then(function (r) { return r.json(); })
+      .then(function (data) {
+        hideTyping();
+        addMsg('agent', data.response || 'Disculpa, no pude procesar tu solicitud.', data.chips);
+        sendBtn.disabled = false;
+        inputEl.focus();
+      })
+      .catch(function (err) {
+        hideTyping();
+        addMsg('agent', 'En este momento no puedo responder. Escríbenos por WhatsApp para atención inmediata.',
+          ['Abrir WhatsApp']);
+        var chip = msgsEl.querySelector('.sgt-msg:last-child .chip');
+        if (chip) chip.onclick = function () { window.open(WHATSAPP, '_blank'); };
+        sendBtn.disabled = false;
       });
     }
-    msgsEl.appendChild(div);
-    msgsEl.scrollTop = msgsEl.scrollHeight;
-    if (role === 'user' || role === 'agent') {
-      history.push({ role: role, text: text, chips: chips });
-      saveHistory();
+
+    function escapeHtml(s) {
+      return String(s)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
     }
+
+    // Load history on init
+    loadHistory();
   }
 
-  function showTyping() {
-    var div = document.createElement('div');
-    div.className = 'sgt-typing';
-    div.id = 'sgtTyping';
-    div.innerHTML = '<span></span><span></span><span></span>';
-    msgsEl.appendChild(div);
-    msgsEl.scrollTop = msgsEl.scrollHeight;
+  // Try to init at multiple points
+  function tryInit() {
+    if (!initialized) init();
   }
-  function hideTyping() {
-    var t = document.getElementById('sgtTyping');
-    if (t) t.remove();
-  }
+  tryInit();
+  document.addEventListener('DOMContentLoaded', tryInit);
+  window.addEventListener('load', tryInit);
+  setTimeout(tryInit, 500);
+  setTimeout(tryInit, 1500);
+  setTimeout(tryInit, 3000);
 
-  function sendMessage() {
-    var text = inputEl.value.trim();
-    if (!text) return;
-    addMsg('user', text);
-    inputEl.value = '';
-    sendBtn.disabled = true;
-    showTyping();
-    fetch(WORKER_URL + '/chat', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ message: text, history: history.slice(-10) })
-    })
-    .then(function (r) { return r.json(); })
-    .then(function (data) {
-      hideTyping();
-      addMsg('agent', data.response || 'Disculpa, no pude procesar tu solicitud.', data.chips);
-      sendBtn.disabled = false;
-      inputEl.focus();
-    })
-    .catch(function (err) {
-      hideTyping();
-      addMsg('agent', 'En este momento no puedo responder. Escríbenos por WhatsApp para atención inmediata.',
-        ['Abrir WhatsApp']);
-      var chip = msgsEl.querySelector('.sgt-msg:last-child .chip');
-      if (chip) chip.onclick = function () { window.open(WHATSAPP, '_blank'); };
-      sendBtn.disabled = false;
+  // Re-init if elements get removed by React hydration
+  var observer = new MutationObserver(function () {
+    if (!document.getElementById('sgtAgentBtn')) {
+      initialized = false;
+      setTimeout(tryInit, 100);
+    }
+  });
+  if (document.body) {
+    observer.observe(document.body, { childList: true, subtree: false });
+  } else {
+    document.addEventListener('DOMContentLoaded', function () {
+      observer.observe(document.body, { childList: true, subtree: false });
     });
-  }
-
-  function escapeHtml(s) {
-    return String(s)
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;');
   }
 })();
