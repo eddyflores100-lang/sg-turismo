@@ -3,9 +3,18 @@
  * Vanilla JS chat widget that connects to the Cloudflare Worker
  * at https://sg-turismo-agent.eddyflores100.workers.dev
  * No dependencies, no framework. Injected into the static page.
+ * Robust: survives Next.js hydration, re-injects if removed.
  */
 (function () {
   'use strict';
+
+  // Wait for body to exist, then init. Re-init if removed.
+  function whenBodyReady(fn) {
+    if (document.body) { fn(); return; }
+    var t = setInterval(function () {
+      if (document.body) { clearInterval(t); fn(); }
+    }, 10);
+  }
 
   var WORKER_URL = 'https://sg-turismo-agent.eddyflores100.workers.dev';
   var WHATSAPP = 'https://wa.me/593980108426?text=Hola%20SG-Turismo%2C%20quiero%20información';
@@ -99,8 +108,34 @@
       '<button id="sgtWa" class="sgt-wa-btn" aria-label="WhatsApp">' + WA_SVG + '</button>' +
     '</div>';
 
-  document.body.appendChild(btn);
-  document.body.appendChild(panel);
+  var injected = false;
+  function inject() {
+    if (injected) return;
+    if (!document.body) return;
+    if (document.querySelector('.sgt-agent-btn')) return;
+    document.body.appendChild(btn);
+    document.body.appendChild(panel);
+    injected = true;
+  }
+  function tryInject() { whenBodyReady(inject); }
+  // Try immediately, on DOMContentLoaded, on load, and after delays
+  tryInject();
+  document.addEventListener('DOMContentLoaded', tryInject);
+  window.addEventListener('load', tryInject);
+  // Retry after delays to survive Next.js hydration
+  setTimeout(tryInject, 500);
+  setTimeout(tryInject, 1500);
+  setTimeout(tryInject, 3000);
+  // Observer: if button gets removed, re-inject
+  whenBodyReady(function () {
+    var obs = new MutationObserver(function () {
+      if (!document.querySelector('.sgt-agent-btn')) {
+        injected = false;
+        tryInject();
+      }
+    });
+    obs.observe(document.body, { childList: true, subtree: false });
+  });
 
   var msgsEl = panel.querySelector('#sgtMsgs');
   var inputEl = panel.querySelector('#sgtInput');
