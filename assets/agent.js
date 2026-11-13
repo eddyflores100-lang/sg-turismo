@@ -68,9 +68,38 @@
 @media(max-width:480px){#sgt-agent-panel{bottom:80px;right:10px;left:10px;width:auto;height:70vh}
   #sgt-agent-btn{width:52px;height:52px}
   #sgt-agent-panel .sgt-agent-input input{font-size:16px}}
+/* Bus animation */
+#sgt-agent-btn .bus-body{animation:sgt-bus-bounce .6s ease-in-out infinite}
+#sgt-agent-btn .bus-wheels{animation:sgt-wheels-spin .4s linear infinite;transform-origin:center}
+#sgt-agent-btn .bus-road{animation:sgt-road-move .5s linear infinite}
+@keyframes sgt-bus-bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-2px)}}
+@keyframes sgt-wheels-spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+@keyframes sgt-road-move{0%{transform:translateX(0)}100%{transform:translateX(-8px)}}
 `;
 
-  var BUS_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6v6"/><path d="M15 6v6"/><path d="M2 12h19.6"/><path d="M18 18h3s.5-1.7.8-2.8c.1-.4.2-.8.2-1.2 0-.4-.1-.8-.2-1.2l-1.4-5C20.1 6.8 19.1 6 18 6H4a2 2 0 0 0-2 2v10h3"/><circle cx="7" cy="18" r="2"/><path d="M9 18h5"/><circle cx="16" cy="18" r="2"/></svg>';
+  var BUS_SVG = '<svg viewBox="0 0 32 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">' +
+    '<g class="bus-body">' +
+      '<rect x="3" y="4" width="22" height="12" rx="2" fill="rgba(255,255,255,0.15)"/>' +
+      '<line x1="9" y1="4" x2="9" y2="10"/>' +
+      '<line x1="15" y1="4" x2="15" y2="10"/>' +
+      '<line x1="3" y1="10" x2="25" y2="10"/>' +
+      '<rect x="5" y="5" width="3" height="3" rx="0.5" fill="rgba(255,255,255,0.3)" stroke="none"/>' +
+      '<rect x="11" y="5" width="3" height="3" rx="0.5" fill="rgba(255,255,255,0.3)" stroke="none"/>' +
+      '<rect x="17" y="5" width="3" height="3" rx="0.5" fill="rgba(255,255,255,0.3)" stroke="none"/>' +
+      '<line x1="25" y1="8" x2="28" y2="8"/>' +
+    '</g>' +
+    '<g class="bus-wheels">' +
+      '<circle cx="9" cy="18" r="2.5" fill="rgba(255,255,255,0.2)"/>' +
+      '<line x1="9" y1="15.5" x2="9" y2="20.5" stroke-width="1"/>' +
+      '<line x1="6.5" y1="18" x2="11.5" y2="18" stroke-width="1"/>' +
+      '<circle cx="19" cy="18" r="2.5" fill="rgba(255,255,255,0.2)"/>' +
+      '<line x1="19" y1="15.5" x2="19" y2="20.5" stroke-width="1"/>' +
+      '<line x1="16.5" y1="18" x2="21.5" y2="18" stroke-width="1"/>' +
+    '</g>' +
+    '<g class="bus-road" stroke-dasharray="3 3">' +
+      '<line x1="1" y1="22" x2="31" y2="22" stroke-width="1" opacity="0.5"/>' +
+    '</g>' +
+  '</svg>';
   var CLOSE_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>';
   var SEND_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>';
   var WA_SVG = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4 7.94 7.94 0 0 0 4.1 11.9a7.84 7.84 0 0 0 1.06 3.95L4 20l4.25-1.11a7.86 7.86 0 0 0 3.79.96h.01a7.94 7.94 0 0 0 7.94-7.9 7.86 7.86 0 0 0-2.39-5.63Zm-5.55 12.18h-.01a6.5 6.5 0 0 1-3.32-.91l-.24-.14-2.49.65.66-2.43-.16-.25a6.46 6.46 0 0 1-1-3.46 6.5 6.5 0 0 1 6.5-6.49 6.43 6.43 0 0 1 4.59 1.91 6.45 6.45 0 0 1 1.9 4.59 6.5 6.5 0 0 1-6.49 6.49Z"/></svg>';

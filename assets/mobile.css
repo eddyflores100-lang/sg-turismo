@@ -1,20 +1,52 @@
 /* SG-Turismo - Mobile responsive fixes */
 /* Applied on top of existing Tailwind CSS for better mobile experience */
 
-/* ============ HERO BACKGROUND PHOTO - FORCE VISIBLE ============ */
-/* Prevent React hydration from hiding the bus-hero background photo */
-section#top .pointer-events-none.absolute.inset-0.z-\[1\],
-section#top div[class*="pointer-events-none absolute inset-0 z-[1]"] {
-  opacity: 1 !important;
-  transform: none !important;
-  display: block !important;
+/* ============ HIDE CITIES MARQUEE BANNER ============ */
+/* Hide the scrolling cities carousel in the hero section */
+div[class*="top-[30%]"][class*="mask-fade-edges"],
+div[class*="animate-marquee"],
+section#top div[class*="mask-fade-edges"] {
+  display: none !important;
+  visibility: hidden !important;
+  height: 0 !important;
+  overflow: hidden !important;
 }
 
-section#top img.opacity-30.mask-fade-bottom,
+/* ============ HIDE SCROLL PROGRESS BAR ============ */
+div[class*="z-[60]"][class*="h-1"][class*="bg-gradient-warm"] {
+  display: none !important;
+}
+
+/* ============ HERO BACKGROUND PHOTO - FORCE VISIBLE ============ */
 section#top img[class*="opacity-30"][class*="mask-fade-bottom"] {
   opacity: 0.3 !important;
   display: block !important;
   visibility: visible !important;
+}
+
+/* ============ AGENT BUS ANIMATION ============ */
+/* Animate the bus icon with moving wheels */
+#sgt-agent-btn .bus-body {
+  animation: sgt-bus-bounce 0.6s ease-in-out infinite;
+}
+#sgt-agent-btn .bus-wheels {
+  animation: sgt-wheels-spin 0.4s linear infinite;
+  transform-origin: center;
+}
+#sgt-agent-btn .bus-road {
+  animation: sgt-road-move 0.5s linear infinite;
+}
+@keyframes sgt-bus-bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-2px); }
+}
+@keyframes sgt-wheels-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+@keyframes sgt-road-move {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-8px); }
 }
 
 /* ============ HERO SECTION ============ */
