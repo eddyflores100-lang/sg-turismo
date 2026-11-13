@@ -1,0 +1,241 @@
+/* SG-Turismo - Mobile responsive fixes */
+/* Applied on top of existing Tailwind CSS for better mobile experience */
+
+/* ============ HERO SECTION ============ */
+@media (max-width: 640px) {
+  /* Reduce hero height on mobile */
+  section#top {
+    min-height: 100svh !important;
+    height: auto !important;
+    padding-top: 80px !important;
+    padding-bottom: 40px !important;
+  }
+
+  /* Hero title smaller on mobile */
+  section#top h1,
+  section#top .hero-title {
+    font-size: 1.75rem !important;
+    line-height: 1.2 !important;
+  }
+
+  /* Hero lead text */
+  section#top .lead,
+  section#top p {
+    font-size: 0.95rem !important;
+    line-height: 1.5 !important;
+  }
+
+  /* Hero badge/eyebrow */
+  section#top .eyebrow {
+    font-size: 0.7rem !important;
+  }
+}
+
+/* ============ NAVBAR ============ */
+@media (max-width: 640px) {
+  header nav {
+    padding: 8px 12px !important;
+  }
+
+  /* Brand logo smaller on mobile */
+  header nav .brand,
+  header nav > a:first-child {
+    transform: scale(0.9);
+    transform-origin: left center;
+  }
+
+  /* Hide secondary phone number on mobile if present */
+  header nav .phone-secondary {
+    display: none !important;
+  }
+}
+
+/* ============ SECTIONS ============ */
+@media (max-width: 640px) {
+  section {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+
+  section#flota,
+  section#galeria,
+  section#video {
+    padding-top: 48px !important;
+    padding-bottom: 48px !important;
+  }
+
+  /* Section titles smaller on mobile */
+  section h2 {
+    font-size: 1.5rem !important;
+    line-height: 1.25 !important;
+  }
+
+  /* Section eyebrow */
+  section .eyebrow {
+    font-size: 0.7rem !important;
+  }
+}
+
+/* ============ FLEET CARDS ============ */
+@media (max-width: 640px) {
+  /* Bus cards full width on mobile */
+  section#flota .grid,
+  section#flota [class*="grid"] {
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+  }
+
+  /* Bus images */
+  section#flota img {
+    max-height: 200px !important;
+    object-fit: contain !important;
+  }
+}
+
+/* ============ GALLERY ============ */
+@media (max-width: 640px) {
+  /* Gallery horizontal scroll on mobile */
+  section#galeria .grid,
+  section#galeria [class*="grid"] {
+    display: flex !important;
+    flex-direction: row !important;
+    overflow-x: auto !important;
+    scroll-snap-type: x mandatory !important;
+    gap: 12px !important;
+    padding-bottom: 8px !important;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  section#galeria .grid > *,
+  section#galeria [class*="grid"] > * {
+    flex: 0 0 85% !important;
+    scroll-snap-align: center !important;
+    max-width: 85% !important;
+  }
+
+  /* Gallery images */
+  section#galeria img {
+    height: 160px !important;
+    width: 100% !important;
+    object-fit: cover !important;
+  }
+}
+
+/* ============ VIDEO SECTION ============ */
+@media (max-width: 640px) {
+  section#video video,
+  section#video iframe {
+    width: 100% !important;
+    height: auto !important;
+    max-height: 240px !important;
+  }
+}
+
+/* ============ FOOTER ============ */
+@media (max-width: 640px) {
+  footer {
+    padding: 32px 16px !important;
+    text-align: center !important;
+  }
+
+  footer .grid,
+  footer [class*="grid"] {
+    grid-template-columns: 1fr !important;
+    gap: 24px !important;
+    text-align: center !important;
+  }
+
+  footer nav {
+    flex-direction: column !important;
+    gap: 12px !important;
+    align-items: center !important;
+  }
+
+  footer .social {
+    justify-content: center !important;
+  }
+
+  /* Footer buttons smaller on mobile */
+  footer button,
+  footer a[class*="btn"],
+  footer a[class*="button"] {
+    width: 100% !important;
+    max-width: 280px !important;
+    margin: 0 auto 8px !important;
+    padding: 10px 16px !important;
+    font-size: 0.875rem !important;
+  }
+}
+
+/* ============ AGENT WIDGET - MOBILE ============ */
+@media (max-width: 480px) {
+  /* Smaller button on mobile */
+  .sgt-agent-btn {
+    width: 52px !important;
+    height: 52px !important;
+    bottom: 16px !important;
+    right: 16px !important;
+  }
+
+  .sgt-agent-btn svg {
+    width: 24px !important;
+    height: 24px !important;
+  }
+
+  /* Panel full width on mobile */
+  .sgt-agent-panel {
+    bottom: 72px !important;
+    right: 8px !important;
+    left: 8px !important;
+    width: auto !important;
+    height: 75vh !important;
+    max-height: 75vh !important;
+    border-radius: 12px !important;
+  }
+
+  /* Messages and input adjusted */
+  .sgt-agent-msgs {
+    padding: 10px !important;
+  }
+
+  .sgt-msg {
+    font-size: 12px !important;
+    max-width: 88% !important;
+  }
+
+  .sgt-agent-input input {
+    font-size: 16px !important; /* Prevents iOS zoom */
+  }
+}
+
+/* ============ PREVENT iOS ZOOM ON INPUTS ============ */
+@media (max-width: 640px) {
+  input,
+  textarea,
+  select {
+    font-size: 16px !important;
+  }
+}
+
+/* ============ PREVENT HORIZONTAL SCROLL ============ */
+html, body {
+  max-width: 100% !important;
+  overflow-x: hidden !important;
+}
+
+/* ============ SMOOTH SCROLLING ============ */
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+/* ============ TOUCH-FRIENDLY ============ */
+@media (max-width: 640px) {
+  a, button {
+    min-height: 44px !important; /* Apple's minimum touch target */
+  }
+
+  a[class*="rounded-full"] {
+    min-height: 36px !important;
+  }
+}
