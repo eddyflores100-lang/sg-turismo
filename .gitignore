@@ -9,3 +9,33 @@ Thumbs.db
 # IDE
 .vscode/
 .idea/
+
+# Dev files - never commit to production
+.env
+.env.*
+scripts/
+skills/
+mini-services/
+node_modules/
+.next/
+out/
+tool-results/
+db/
+prisma/
+tests/
+examples/
+.zscripts/
+next-env.d.ts
+bun.lock
+package-lock.json
+package.json
+vercel.json
+wrangler.toml
+eslint.config.mjs
+tsconfig.json
+postcss.config.mjs
+tailwind.config.ts
+components.json
+Caddyfile
+DEPLOY-GUIDE.md
+dev.log
