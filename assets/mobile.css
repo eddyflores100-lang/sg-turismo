@@ -1,6 +1,22 @@
 /* SG-Turismo - Mobile responsive fixes */
 /* Applied on top of existing Tailwind CSS for better mobile experience */
 
+/* ============ HERO BACKGROUND PHOTO - FORCE VISIBLE ============ */
+/* Prevent React hydration from hiding the bus-hero background photo */
+section#top .pointer-events-none.absolute.inset-0.z-\[1\],
+section#top div[class*="pointer-events-none absolute inset-0 z-[1]"] {
+  opacity: 1 !important;
+  transform: none !important;
+  display: block !important;
+}
+
+section#top img.opacity-30.mask-fade-bottom,
+section#top img[class*="opacity-30"][class*="mask-fade-bottom"] {
+  opacity: 0.3 !important;
+  display: block !important;
+  visibility: visible !important;
+}
+
 /* ============ HERO SECTION ============ */
 @media (max-width: 640px) {
   /* Reduce hero height on mobile */
